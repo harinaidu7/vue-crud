@@ -2,13 +2,18 @@
     <div>
         <h1>{{this.blog.Title}}</h1>
         <div>
-            {{this.blog.Thumbnail}}
+          <img class="rounded" :src="this.blog.Thumbnail" alt="Card image cap">
         </div>
         <div>
             {{this.blog.Name}}
         </div>
         <div>
             {{this.blog.Content}}
+        </div>
+        <div>
+          <router-link :to="`/`">
+            <button type="button" class="btn btn-danger" @click="del_post">Delete</button>
+          </router-link>
         </div>
         
     </div>
@@ -50,6 +55,15 @@ export default {
       //   console.log("this.data12", newObj);
       //   this.data1 = newObj;
     },
+    async del_post(){
+      var id1 = this.$route.params.id;
+      console.log(id1);
+      let result = await axios.delete(
+        "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data/" +
+          id1 +
+          ".json"
+      );
+    }
   },
 };
 </script>

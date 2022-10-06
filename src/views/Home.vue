@@ -81,18 +81,25 @@
                                 <div class="bi bi-pencil-square mr-auto p-2"></div>
                                 <div class="bi bi-x p-2" @click="click_delete(data1['.key'])"></div>
                               </div> -->
-                              <div class="d-flex  justify-content-between">
-                                <div><i class="bi bi-pencil-square"></i></div>
-                                <div><i class="bi bi-x d-flex " @click="click_delete()"></i></div>
-                              </div>
                               <img class="rounded" :src="item.Thumbnail" alt="Card image cap">
                               <div class="card-body">
-                                <h5 class="card-title " >{{item.Title}}</h5>
-                                <!-- <p class="card-text">{{item.Content.substring(0,200)}}</p> -->
-                                <p class="card-text"><small class="text-muted">{{item.Content}}</small></p>
-                                <router-link :to="`/Blog/${item.id}`">
-                                  <button type="button" class="btn btn-info">more</button>
-                                </router-link> 
+                                <div>
+                                  <h5 class="card-title " >{{item.Title}}</h5>
+                                </div>
+                                <div>
+                                  <p class="card-text"><small class="text-muted">{{item.Name}}</small></p>
+                                </div>
+                                <div>
+                                  <p class="card-text">{{item.Content.substring(0,200)}}</p>
+                                </div>
+                                <div>
+                                  <div class="d-flex  justify-content-between">
+                                      <router-link :to="`/Blog/${item.id}`">
+                                         <button type="button" class="btn btn-info">more</button>
+                                      </router-link> 
+                                      <button type="button" class="btn btn-info" @click="edit_blog">Edit</button>
+                                    </div>
+                                </div>
                               </div>
                             </div>
                         </div>
@@ -197,6 +204,7 @@ export default {
   },
   created() {
     this.click_get();
+    click_delete();
   },
   // beforeDestroy(){
   //   this.click_post()
@@ -256,12 +264,16 @@ export default {
     },
 
     async click_delete() {
-      let id = this.data1.id;
-      console.log("delet",id)
+      let del_data = this.data1.id;
+      console.log("del", del_data);
       let result = await axios.delete(
-        "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data/id.json"
+        "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"
       );
     },
+
+    async edit_blog(){
+      let result = await axios.put("https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json")
+    }
     // async click_get(){
     //      let result = await axios.get('https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json')
     //         // console.log(result.data)
