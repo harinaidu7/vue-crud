@@ -9,7 +9,7 @@
                         <input class="form-control" type="text" value="reset"  placeholder="Name.." v-model="result.name" required>
                         <span class="invalid" v-if="!$v.result.name.required && $v.result.name.$dirty">Name is required</span>
                         <span class="invalid" v-if="!$v.result.name.alpha && $v.result.name.required && $v.result.name.$dirty">Invalid input</span>
-                        <span class="invalid" v-if="(!$v.result.name.minLength || !$v.result.name.maxLength) && $v.result.name.$dirty">Name must be between {{ $v.name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br>
+                        <!-- <span class="invalid" v-if="(!$v.result.name.minLength || !$v.result.name.maxLength) && $v.result.name.$dirty">Name must be between {{ $v.name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br> -->
                     </div>
                     <div class="container-fluid py-3">
                         <input class="form-control" type="text" value="reset" placeholder="Title.." v-model="result.title" required >
@@ -39,6 +39,10 @@
                     </div> -->
                 </div>
             </form>
+
+            <div>
+              <div class="lds-ring" v-if="loading"><div></div><div></div><div></div><div></div></div>
+            </div>
 
             <h1>Results</h1>
 
@@ -71,6 +75,7 @@
                 <div class="card-deck" >
                     <div class="row p-3">
                         <div class="col-sm-6 col-md-4 col-lg-3 p-3" v-for="item in data1" :key="item.id">
+                          <!-- <pre>{{item}}</pre> -->
                             <div class="card h-100">
                               <!-- <div class="d-flex">
                                 <div class="bi bi-pencil-square mr-auto p-2"></div>
@@ -78,14 +83,14 @@
                               </div> -->
                               <div class="d-flex  justify-content-between">
                                 <div><i class="bi bi-pencil-square"></i></div>
-                                <div><i class="bi bi-x d-flex " @click="click_delete(data1['.key'])"></i></div>
+                                <div><i class="bi bi-x d-flex " @click="click_delete()"></i></div>
                               </div>
                               <img class="rounded" :src="item.Thumbnail" alt="Card image cap">
                               <div class="card-body">
                                 <h5 class="card-title " >{{item.Title}}</h5>
-                                <p class="card-text">{{item.Content.substring(0,200)}}</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                <router-link :to="`/Blog/`">
+                                <!-- <p class="card-text">{{item.Content.substring(0,200)}}</p> -->
+                                <p class="card-text"><small class="text-muted">{{item.Content}}</small></p>
+                                <router-link :to="`/Blog/${item.id}`">
                                   <button type="button" class="btn btn-info">more</button>
                                 </router-link> 
                               </div>
@@ -159,8 +164,10 @@ export default {
         title: "",
         content: "",
         thumbnail: "",
+        x: "",
       },
       data1: [],
+      loading: false,
       // uid: "",
     };
   },
@@ -188,6 +195,12 @@ export default {
       },
     };
   },
+  created() {
+    this.click_get();
+  },
+  // beforeDestroy(){
+  //   this.click_post()
+  // },
   //   mounted() {
   //     this.click_post();
   //   },
@@ -203,9 +216,10 @@ export default {
         alert("not valid");
       }
       if (!this.$v.$invalid) {
-        console.log(`Name : ${this.name} Email: ${this.title}`);
+        // console.log(`Name : ${this.name} Email: ${this.title}`);
       }
-
+      // let x = this.result.x
+      // this.x = x++
       let result = await axios.post(
         "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json",
         {
@@ -215,24 +229,37 @@ export default {
           Thumbnail: this.result.thumbnail,
         }
       );
-
+      // this.x = x+1
+    },
+    async click_get() {
+      this.loading = true;
       let result1 = await axios.get(
         "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"
       );
       // console.log(result.data)
       this.data1 = result1.data;
-      console.log(result1.data);
-      this.uid = result1;
-      console.log(this.uid);
-      (this.result.name = ""),
-        (this.result.title = ""),
-        (this.result.content = "");
-      // console.log(result.data)
+      console.log("this.data1", result1.data);
+
+      const newObj = Object.keys(result1.data).map((p) => {
+        return { ...result1.data[p], id: p };
+      });
+      console.log("newObj", newObj);
+      console.log("this.data12", newObj);
+      this.data1 = newObj;
+
+      // this.uid = result1;
+      // console.log(this.uid);
+      this.result.name = "";
+      this.result.title = "";
+      this.result.content = ""; // console.log(result.data)
+      this.loading = false;
     },
 
     async click_delete() {
+      let id = this.data1.id;
+      console.log("delet",id)
       let result = await axios.delete(
-        "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"
+        "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data/id.json"
       );
     },
     // async click_get(){
@@ -259,5 +286,40 @@ export default {
 }
 .invalid {
   color: rgb(199, 15, 15);
+}
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid rgb(12, 12, 12);
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: rgb(3, 3, 3) transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
