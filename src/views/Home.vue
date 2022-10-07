@@ -1,37 +1,39 @@
 <template>
     <div>
         <div class="container-fluid">
-            <h1>Hello There</h1>
-            <form id="form-group">
+          <form id="form-group">
+             
+                <!-- <div class="container-fluid p-0">Blog</div> -->
+            
 
                 <div>
                     <div class="container-fluid py-3">
-                        <input class="form-control" type="text" value="reset"  placeholder="Name.." v-model="result.name" required>
-                        <span class="invalid" v-if="!$v.result.name.required && $v.result.name.$dirty">Name is required</span>
-                        <span class="invalid" v-if="!$v.result.name.alpha && $v.result.name.required && $v.result.name.$dirty">Invalid input</span>
-                        <!-- <span class="invalid" v-if="(!$v.result.name.minLength || !$v.result.name.maxLength) && $v.result.name.$dirty">Name must be between {{ $v.name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br> -->
+                        <input class="form-control" type="text" value="reset"  placeholder="Name.." v-model="result.Name" >
+                        <span class="invalid" v-if="!$v.result.Name.required && $v.result.Name.$dirty">Name is required</span>
+                        <span class="invalid" v-if="!$v.result.Name.alpha && $v.result.Name.Required && $v.result.Name.$dirty">Invalid input</span>
+                        <!-- <span class="invalid" v-if="(!$v.result.Name.minLength || !$v.result.Name.maxLength) && $v.result.Name.$dirty">Name must be between {{ $v.Name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br> -->
                     </div>
                     <div class="container-fluid py-3">
-                        <input class="form-control" type="text" value="reset" placeholder="Title.." v-model="result.title" required >
-                        <span class="invalid" v-if="!$v.result.title.required && $v.result.title.$dirty">Title is required</span>
-                        <span class="invalid" v-if="!$v.result.title.alpha && $v.result.title.required && $v.result.title.$dirty">Invalid input</span>
-                        <!-- <span class="invalid" v-if="(!$v.result.title.minLength || !$v.result.title.maxLength) && $v.result.title.$dirty">Title must be between {{ $v.name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br> -->
+                        <input class="form-control" type="text" value="reset" placeholder="Title.." v-model="result.Title"  >
+                        <span class="invalid" v-if="!$v.result.Title.required && $v.result.Title.$dirty">Title is required</span>
+                        <span class="invalid" v-if="!$v.result.Title.alpha && $v.result.Title.required && $v.result.Title.$dirty">Invalid input</span>
+                        <span class="invalid" v-if="(!$v.result.Title.minLength || !$v.result.Title.maxLength) && $v.result.Title.$dirty">Title must be between {{ $v.Title.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br>
                     </div>
                     <div class="container-fluid py-3">
-                      <input class="form-control" type="text" value="reset" placeholder="Thumbnail.." v-model="result.thumbnail" required>
+                      <input class="form-control" type="text" value="reset" placeholder="Thumbnail.." v-model="result.Thumbnail" >
                     </div>
                     <div class="form-group">
                         <label>Content...</label>
-                        <textarea class="form-control" value="reset" id="exampleFormControlTextarea1" rows="3" v-model="result.content" required></textarea>
-                        <span class="invalid" v-if="!$v.result.content.required && $v.result.content.$dirty">Content is required</span>
-                        <span class="invalid" v-if="!$v.result.content.alpha && $v.result.content.required && $v.result.content.$dirty">Invalid input</span>
+                        <textarea class="form-control" value="reset" id="exampleFormControlTextarea1" rows="3" v-model="result.Content" ></textarea>
+                        <span class="invalid" v-if="!$v.result.Content.required && $v.result.Content.$dirty">Content is required</span>
+                        <span class="invalid" v-if="!$v.result.Content.alpha && $v.esult.Content.required && $v.result.Content.$dirty">Invalid input</span>
                         <!-- <span class="invalid" v-if="(!$v.result.name.minLength || !$v.result.name.maxLength) && $v.result.name.$dirty">Content must be between {{ $v.name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br> -->
                     </div>
                     
                 </div>
                 <div class="container-fluid py-3 d-flex justify-content-around" >
                     <div class="px-3"> 
-                        <button type="button" class="btn btn-info" :disabled="!result.name || !result.title || !result.thumbnail || !result.content" @click="click_post">Submit</button>
+                        <button type="button" class="btn btn-info" :disabled="!result.Name || !result.Title || !result.Thumbnail || !result.Content" @click="submit_blog">Submit</button>
                     </div>
                     
                     <!-- <div>
@@ -77,11 +79,12 @@
                         <div class="col-sm-6 col-md-4 col-lg-3 p-3" v-for="item in data1" :key="item.id">
                           <!-- <pre>{{item}}</pre> -->
                             <div class="card h-100">
+                              
                               <!-- <div class="d-flex">
                                 <div class="bi bi-pencil-square mr-auto p-2"></div>
                                 <div class="bi bi-x p-2" @click="click_delete(data1['.key'])"></div>
                               </div> -->
-                              <img class="rounded" :src="item.Thumbnail" alt="Card image cap">
+                              <img class="rounded card-img" :src="item.Thumbnail" alt="Card image cap">
                               <div class="card-body">
                                 <div>
                                   <h5 class="card-title " >{{item.Title}}</h5>
@@ -93,56 +96,24 @@
                                   <p class="card-text">{{item.Content.substring(0,200)}}</p>
                                 </div>
                                 <div>
-                                  <div class="d-flex  justify-content-between">
+                                  <div class="d-flex  justify-content-between py-3">
                                       <router-link :to="`/Blog/${item.id}`">
-                                         <button type="button" class="btn btn-info">more</button>
+                                         <button type="button" class="btn btn-primary btn-lg">more</button>
                                       </router-link> 
-                                      <button type="button" class="btn btn-info" @click="edit_blog">Edit</button>
-                                    </div>
+                                      <router-link :to="`/Edit/${item.id}`">
+                                        <button type="button" class="btn btn-primary btn-lg" >Edit</button>
+                                      </router-link>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            
 
-            <!-- <section>
-                <div class="container-fluid d-flex">
-                    <div class="row text-center">
-                        <div class="col-sm-6 col-md-4 col-lg-3 p-3" v-for="item in data" :key="item.id">
-                            <div class="card d-flex" >
-                               
-                                <div class="card-content">
-                                    <div class="title px-3 pt-3">
-                                        <h5 class="card-title">{{item.Title}}</h5>
-                                    </div>
-                                    <div class="d-flex flex-row" >
-        
-                                        <div class="release-date d-flex flex-column text-left p-3 " >
-                                            <div>Release date</div>
-                                            <div class="date">{{item.Name}} 
-                                               -->
-                                              <!-- <b-modal id="modal-1" title="BootstrapVue">
-                                                <p  class="my-4">{{this.data.overview}}</p>
-                                              </b-modal> -->
-                                            <!-- </div>
-                                            
-                                        </div>
-                                        <div class="rating p-3">
-                                          <div class="rating" >Rating</div>
-                                          <div class="d-flex">
-                                           
-                                            <div class="rating-num">{{item.Content}}</div> 
-                                          </div>
-                                        </div>
-                                      </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> -->
+                <!-- card -->
+                
+          
         </div>
     </div>
 </template>
@@ -167,10 +138,10 @@ export default {
     return {
       v$: useVuelidate(),
       result: {
-        name: "",
-        title: "",
-        content: "",
-        thumbnail: "",
+        Name: "",
+        Title: "",
+        Content: "",
+        Thumbnail: "",
         x: "",
       },
       data1: [],
@@ -181,19 +152,19 @@ export default {
   validations() {
     return {
       result: {
-        name: {
+        Name: {
           required,
           minLength: minLength(3),
           maxLength: maxLength(20),
           alpha,
         },
-        title: {
+        Title: {
           required,
           maxLength: minLength(3),
           maxLength: maxLength(20),
           alpha,
         },
-        content: {
+        Content: {
           required,
           minLength: minLength(3),
           maxLength: maxLength(20),
@@ -203,18 +174,21 @@ export default {
     };
   },
   created() {
-    this.click_get();
-    click_delete();
+    this.get_blog();
+  },
+  mounted() {
+    // this.edit_blog();
+    // this.result = newObj
   },
   // beforeDestroy(){
   //   this.click_post()
   // },
-  //   mounted() {
-  //     this.click_post();
-  //   },
+  // mounted() {
+  //   this.click_post();
+  // },
 
   methods: {
-    async click_post() {
+    async submit_blog() {
       console.log(this.v$);
       this.$v.$touch();
       // this.v$.validate()
@@ -231,15 +205,15 @@ export default {
       let result = await axios.post(
         "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json",
         {
-          Name: this.result.name,
-          Title: this.result.title,
-          Content: this.result.content,
-          Thumbnail: this.result.thumbnail,
+          Name: this.result.Name,
+          Title: this.result.Title,
+          Content: this.result.Content,
+          Thumbnail: this.result.Thumbnail,
         }
       );
       // this.x = x+1
     },
-    async click_get() {
+    async get_blog() {
       this.loading = true;
       let result1 = await axios.get(
         "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"
@@ -257,23 +231,32 @@ export default {
 
       // this.uid = result1;
       // console.log(this.uid);
-      this.result.name = "";
-      this.result.title = "";
-      this.result.content = ""; // console.log(result.data)
       this.loading = false;
+      this.result.Name = "";
+      this.result.Title = "";
+      this.result.Content = ""; // console.log(result.data)
     },
 
-    async click_delete() {
-      let del_data = this.data1.id;
-      console.log("del", del_data);
-      let result = await axios.delete(
-        "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"
-      );
-    },
+    // async click_delete() {
+    //   let del_data = this.data1.id;
+    //   console.log("del", del_data);
+    //   let result = await axios.delete(
+    //     "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"
+    //   );
+    // },
 
-    async edit_blog(){
-      let result = await axios.put("https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json")
-    }
+    // async edit_blog() {
+    //   var id1 = this.$route.params.id;
+    //   console.log(id1);
+    //   let result1 = await axios.get(
+    //     "https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data/" +
+    //       id1 +
+    //       ".json"
+    //   );
+    //   // console.log("mounted",result.data)
+    //   this.result = result1.data;
+    //   console.log("edit data", this.result);
+    // },
     // async click_get(){
     //      let result = await axios.get('https://vuefirebase-ex1-default-rtdb.asia-southeast1.firebasedatabase.app/data.json')
     //         // console.log(result.data)
@@ -333,5 +316,49 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  /*object-fit: cover;*/
+}
+form {
+  background-color: #ec4d37;
+  max-width: 70%;
+  margin: 30px auto;
+  background: white;
+  text-align: left;
+  padding: 40px;
+  border-radius: 10px;
+}
+label {
+  color: #aaa;
+  display: inline-block;
+  margin: 25px 0 15px;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+input,
+select {
+  display: block;
+  padding: 10px 6px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
+button {
+  background: #0b6dff;
+  border: 0;
+  padding: 10px 20px;
+  margin-top: 20px;
+  color: white;
+  border-radius: 20px;
+}
+.submit {
+  text-align: center;
 }
 </style>

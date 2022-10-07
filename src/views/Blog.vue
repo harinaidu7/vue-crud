@@ -1,5 +1,9 @@
 <template>
     <div>
+      <div>
+        <div class="lds-ring" v-if="loading"><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div v-if="!loading"> 
         <h1>{{this.blog.Title}}</h1>
         <div>
           <img class="rounded" :src="this.blog.Thumbnail" alt="Card image cap">
@@ -15,6 +19,7 @@
             <button type="button" class="btn btn-danger" @click="del_post">Delete</button>
           </router-link>
         </div>
+      </div>
         
     </div>
 </template>
@@ -27,6 +32,7 @@ export default {
   data() {
     return {
       blog: "",
+      laoding:false
     };
   },
   //   created() {
@@ -38,6 +44,7 @@ export default {
 
   methods: {
     async blog_data() {
+      this.loading = true
       var id1 = this.$route.params.id;
       console.log(id1);
       let result = await axios.get(
@@ -47,7 +54,7 @@ export default {
       );
       this.blog = result.data;
       console.log("blogdata", this.blog);
-
+      this.loading = false
       //   const newObj = Object.keys(result.data).map((p) => {
       //     return { ...result.data[p], id: p };
       //   });
