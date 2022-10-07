@@ -1,8 +1,12 @@
 <template>
     <div>
+      <!-- loader start -->
       <div>
         <div class="lds-ring" v-if="loading"><div></div><div></div><div></div><div></div></div>
       </div>
+      <!-- loader end -->
+  
+      <!-- blog body start -->
       <div v-if="!loading"> 
         <h1>{{this.blog.Title}}</h1>
         <div>
@@ -20,6 +24,8 @@
           </router-link>
         </div>
       </div>
+      <!-- blog body end -->
+
         
     </div>
 </template>

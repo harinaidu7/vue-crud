@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="container-fluid">
+
+
+          <!-- form start -->
           
           <form id="form-group">
              
@@ -48,12 +51,16 @@
                     </div> -->
                 </div>
             </form>
+            <!-- form start -->
 
+            <!-- loader start -->
             <div>
               <div class="lds-ring" v-if="loading"><div></div><div></div><div></div><div></div></div>
             </div>
+            <!-- loader end -->
 
-            <h1>Results</h1>
+
+            <h1>Blogs</h1>
 
             <!-- <section>
                 <div class="container-fluid d-flex">
@@ -80,7 +87,7 @@
                 </div>
             </div>     -->
 
-            
+            <!-- Blog card start -->
                 <div class="card-deck" >
                     <div class="row p-3">
                         <div class="col-sm-6 col-md-4 col-lg-3 p-3" v-for="item in data1" :key="item.id">
@@ -118,7 +125,8 @@
                     </div>
                 </div>
 
-                <!-- card -->
+            <!-- Blog card end -->
+                
                 
           
         </div>
