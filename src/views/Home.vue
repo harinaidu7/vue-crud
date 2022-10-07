@@ -1,33 +1,40 @@
 <template>
     <div>
         <div class="container-fluid">
+          
           <form id="form-group">
              
                 <!-- <div class="container-fluid p-0">Blog</div> -->
-            
+                <div class="header">
+                  <h1>BLOG DETAILS</h1>
+                </div>
 
                 <div>
                     <div class="container-fluid py-3">
-                        <input class="form-control" type="text" value="reset"  placeholder="Name.." v-model="result.Name" >
+                      <label class="form-lable">Name</label>
+                        <input class="form-input" type="text" value="reset" v-model="result.Name" >
                         <span class="invalid" v-if="!$v.result.Name.required && $v.result.Name.$dirty">Name is required</span>
                         <span class="invalid" v-if="!$v.result.Name.alpha && $v.result.Name.Required && $v.result.Name.$dirty">Invalid input</span>
                         <!-- <span class="invalid" v-if="(!$v.result.Name.minLength || !$v.result.Name.maxLength) && $v.result.Name.$dirty">Name must be between {{ $v.Name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br> -->
                     </div>
                     <div class="container-fluid py-3">
-                        <input class="form-control" type="text" value="reset" placeholder="Title.." v-model="result.Title"  >
+                      <label>Title</label>
+                        <input class="form-control" type="text" value="reset" v-model="result.Title"  >
                         <span class="invalid" v-if="!$v.result.Title.required && $v.result.Title.$dirty">Title is required</span>
                         <span class="invalid" v-if="!$v.result.Title.alpha && $v.result.Title.required && $v.result.Title.$dirty">Invalid input</span>
-                        <span class="invalid" v-if="(!$v.result.Title.minLength || !$v.result.Title.maxLength) && $v.result.Title.$dirty">Title must be between {{ $v.Title.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br>
+                        <span class="invalid" v-if="(!$v.result.Title.minLength || !$v.result.Title.maxLength) && $v.result.Title.$dirty">Title must be between {{ $v.Title.$params.minLength.min }} and {{ $v.Title.$params.maxLength.max }}</span><br>
                     </div>
                     <div class="container-fluid py-3">
-                      <input class="form-control" type="text" value="reset" placeholder="Thumbnail.." v-model="result.Thumbnail" >
+                      <label>Image URL</label>
+
+                      <input class="form-control" type="text" value="reset" v-model="result.Thumbnail" >
                     </div>
                     <div class="form-group">
                         <label>Content...</label>
                         <textarea class="form-control" value="reset" id="exampleFormControlTextarea1" rows="3" v-model="result.Content" ></textarea>
-                        <span class="invalid" v-if="!$v.result.Content.required && $v.result.Content.$dirty">Content is required</span>
-                        <span class="invalid" v-if="!$v.result.Content.alpha && $v.esult.Content.required && $v.result.Content.$dirty">Invalid input</span>
-                        <!-- <span class="invalid" v-if="(!$v.result.name.minLength || !$v.result.name.maxLength) && $v.result.name.$dirty">Content must be between {{ $v.name.$params.minLength.min }} and {{ $v.name.$params.maxLength.max }}</span><br> -->
+                        <!-- <span class="invalid" v-if="!$v.result.Content.required && $v.result.Content.$dirty">Content is required</span> -->
+                        <!-- <span class="invalid" v-if="!$v.result.Content.alpha && $v.esult.Content.required && $v.result.Content.$dirty">Invalid input</span> -->
+                        <span class="invalid" v-if="(!$v.result.Content.minLength || !$v.result.Content.maxLength) && $v.result.Content.$dirty">Content must be between {{ $v.Content.$params.minLength.min }} and {{ $v.Content.$params.maxLength.max }}</span><br> 
                     </div>
                     
                 </div>
@@ -161,13 +168,13 @@ export default {
         Title: {
           required,
           maxLength: minLength(3),
-          maxLength: maxLength(20),
+          maxLength: maxLength(200),
           alpha,
         },
         Content: {
           required,
           minLength: minLength(3),
-          maxLength: maxLength(20),
+          maxLength: maxLength(2000),
           alpha,
         },
       },
@@ -324,15 +331,16 @@ export default {
 }
 form {
   background-color: #ec4d37;
-  max-width: 70%;
+  max-width:70% ;
+  
   margin: 30px auto;
-  background: white;
+  background: #a9a9a9;
   text-align: left;
   padding: 40px;
   border-radius: 10px;
 }
 label {
-  color: #aaa;
+  
   display: inline-block;
   margin: 25px 0 15px;
   font-size: 0.8em;
@@ -341,17 +349,20 @@ label {
   font-weight: bold;
 }
 input,
-select {
+select{
   display: block;
   padding: 10px 6px;
   width: 100%;
   box-sizing: border-box;
   border: none;
   border-bottom: 1px solid #ddd;
-  color: #555;
+ background-color: #efefef;
 }
-button {
-  background: #0b6dff;
+textarea {
+  background-color: #efefef;
+}
+button,.btn {
+  background: #ff3b3f;
   border: 0;
   padding: 10px 20px;
   margin-top: 20px;
@@ -361,4 +372,11 @@ button {
 .submit {
   text-align: center;
 }
+.card-body{
+  background: #a9a9a9;
+}
+.header{
+  text-align: center
+}
+
 </style>
